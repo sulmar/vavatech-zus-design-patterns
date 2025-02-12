@@ -2,6 +2,67 @@
 
 namespace AdapterPattern
 {
+    // Abstract Adapter
+    public interface IRadioAdapter
+    {
+        void Send(string message, byte channel);
+    }
+
+    // Concrete Adapter A
+    public class MotorolaRadioAdapter : IRadioAdapter
+    {
+        private readonly string pincode;
+
+        // Adaptee
+        private MotorolaRadio radio;
+
+        public MotorolaRadioAdapter(string pincode)
+        {
+            radio = new MotorolaRadio();
+            this.pincode = pincode;
+        }
+
+        public void Send(string message, byte channel)
+        {
+            radio.PowerOn(pincode);
+            radio.SelectChannel(channel);
+            radio.Send(message);
+            radio.PowerOff();
+        }
+    }
+
+    
+    // Concrete Adapter B
+    public class HyteraRadioAdapter : IRadioAdapter
+    {
+        private HyteraRadio radio;
+
+        public HyteraRadioAdapter()
+        {
+            radio = new HyteraRadio();
+        }
+
+        public void Send(string message, byte channel)
+        {
+            radio.Init();
+            radio.SendMessage(channel, message);
+            radio.Release();
+        }
+    }
+
+
+    public class PanasonicRadioAdapter : IRadioAdapter
+    {
+        private PanasonicRadio radio = new PanasonicRadio();
+
+        public void Send(string message, byte channel)
+        {
+            Message msg = new Message();
+            msg.Content = message;
+            radio.ChooseChannel(channel);
+            radio.Send(msg);
+        }
+    }
 
     public class MotorolaRadio
     {
