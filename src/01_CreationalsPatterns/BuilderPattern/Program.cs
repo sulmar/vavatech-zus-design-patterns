@@ -118,11 +118,12 @@ namespace BuilderPattern
 
         private static void PhoneTest()
         {
-            CallBuilder builder = new CallBuilder();
+            IFrom builder = new CallBuilder();            
             
             Call call = builder
-                .From("555999123")
+                .From("555999123")                
                 .To("555000321")
+                .To("555111321")
                 .WithSubject(".NET Design Patterns")
                 .Build();
 
