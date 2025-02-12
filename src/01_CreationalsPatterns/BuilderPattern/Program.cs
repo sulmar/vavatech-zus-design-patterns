@@ -11,7 +11,7 @@ namespace BuilderPattern
         {
             Console.WriteLine("Hello Builder Pattern!");
 
-            //PhoneTest();
+            PhoneTest();
 
             // SalesReportTest();
 
@@ -118,8 +118,25 @@ namespace BuilderPattern
 
         private static void PhoneTest()
         {
-            Phone phone = new Phone();
-            phone.Call("555999123", "555000321", ".NET Design Patterns");
+            CallBuilder builder = new CallBuilder();
+            
+            Call call = builder
+                .From("555999123")
+                .To("555000321")
+                .WithSubject(".NET Design Patterns")
+                .Build();
+
+            Console.WriteLine(call);
+
+
+         //   Phone phone = new Phone();
+            // phone.Call("555999123", "555000321", ".NET Design Patterns");
+
+            // Fluent Api
+            // phone
+            //  .From("555999123")
+            //  .To("555000321")
+            //  .Build();
         }
 
 
