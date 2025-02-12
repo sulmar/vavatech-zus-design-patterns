@@ -13,11 +13,45 @@ namespace BuilderPattern
 
             //PhoneTest();
 
-           // SalesReportTest();
+            // SalesReportTest();
 
             // PersonTest();
 
-            RoomTest();
+            // RoomTest();
+
+            PdfPresentationTest();
+
+            MoviePresentationTest();
+        }
+
+        private static void PdfPresentationTest()
+        {
+            Presentation presentation = new Presentation();
+            presentation.AddSlide(new Slide("a"));
+            presentation.AddSlide(new Slide("b"));
+            presentation.AddSlide(new Slide("c"));
+
+            PdfPresentationBuilder builder = new PdfPresentationBuilder();
+
+            PresentationSupervisor presentationSupervisor = new PresentationSupervisor(builder);
+            presentationSupervisor.Build(presentation);
+
+            PdfDocument document = builder.GetPdfDocument();
+        }
+
+        private static void MoviePresentationTest()
+        {
+            Presentation presentation = new Presentation();
+            presentation.AddSlide(new Slide("a"));
+            presentation.AddSlide(new Slide("b"));
+            presentation.AddSlide(new Slide("c"));
+
+            MoviePresentationBuilder builder = new MoviePresentationBuilder();
+
+            PresentationSupervisor presentationSupervisor = new PresentationSupervisor(builder);
+            presentationSupervisor.Build(presentation);
+
+            Movie movie = builder.GetMovie();
         }
 
         private static void RoomTest()
@@ -48,7 +82,7 @@ namespace BuilderPattern
         private static void PersonTest()
         {
             var person = new Person();
-             
+
             person.Name = "Marcin";
             person.Position = "developer";
             person.AddSkill("C#");
@@ -88,7 +122,7 @@ namespace BuilderPattern
             phone.Call("555999123", "555000321", ".NET Design Patterns");
         }
 
-       
+
     }
 
     public class FakeOrdersService
