@@ -29,7 +29,7 @@ namespace AdapterPattern
 
         public void Send(string message)
         {
-            if (enabled && selectedChannel!=null)
+            if (enabled && selectedChannel != null)
             {
                 Console.WriteLine($"<Xml><Send Channel={selectedChannel}><Message>{message}</Message></xml>");
             }
@@ -43,4 +43,27 @@ namespace AdapterPattern
 
 
     }
+
+    public class Message
+    {
+        public string Content { get; set; }
+    }
+
+    public class PanasonicRadio
+    {
+        private byte channel;
+
+        public void ChooseChannel(byte channel)
+        {
+            this.channel = channel;
+        }
+
+        public void Send(Message message)
+        {
+            Console.WriteLine($"Send {message} to {channel} by Panasonic");
+        }
+
+    }
+
+
 }
