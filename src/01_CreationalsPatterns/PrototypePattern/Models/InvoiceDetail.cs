@@ -21,7 +21,7 @@
 
         public InvoiceDetail Clone()
         {
-            return new InvoiceDetail(this.Product, this.Quantity);        
+            return (InvoiceDetail) MemberwiseClone();            
         }
     }
 }
