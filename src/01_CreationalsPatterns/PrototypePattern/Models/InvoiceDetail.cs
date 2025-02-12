@@ -1,6 +1,8 @@
-﻿namespace PrototypePattern
+﻿using System;
+
+namespace PrototypePattern
 {
-    public class InvoiceDetail
+    public class InvoiceDetail : ICloneable
     {
         public InvoiceDetail(Product product, int quantity = 1)
         {
@@ -19,9 +21,9 @@
         }
 
 
-        public InvoiceDetail Clone()
+        public object Clone()
         {
-            return (InvoiceDetail) MemberwiseClone();            
+            return MemberwiseClone();            
         }
     }
 }

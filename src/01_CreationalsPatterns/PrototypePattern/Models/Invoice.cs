@@ -12,7 +12,7 @@ namespace PrototypePattern
         public decimal TotalAmount { get; set; }
     }
 
-    public class Invoice
+    public class Invoice : ICloneable
     {
         public Invoice(string number, DateTime createDate, Customer customer)
         {
@@ -45,13 +45,13 @@ namespace PrototypePattern
             return $"Invoice No {Number} {TotalAmount:C2} {Customer.FullName}";
         }
 
-        public Invoice Clone()
+        public object Clone()
         {
             var invoice = new Invoice(this.Number, this.CreateDate, this.Customer);
 
             foreach (InvoiceDetail detail in this.Details)
             {
-                invoice.Details.Add(detail.Clone());
+                invoice.Details.Add((InvoiceDetail) detail.Clone());
             }
 
             invoice.Paid(this.TotalAmount);

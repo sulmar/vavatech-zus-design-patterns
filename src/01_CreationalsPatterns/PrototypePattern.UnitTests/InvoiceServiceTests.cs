@@ -20,7 +20,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = invoice.Clone();
+            Invoice invoiceCopy = (Invoice) invoice.Clone();
 
             // Assert
             invoiceCopy.Should().NotBeSameAs(invoice);
@@ -40,7 +40,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = new Invoice(invoice.Number, DateTime.Today, invoice.Customer);
+            Invoice invoiceCopy = (Invoice)invoice.Clone();
 
             // Assert
             invoiceCopy.Customer.Should().BeSameAs(invoice.Customer);
@@ -58,7 +58,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = invoice.Clone();
+            Invoice invoiceCopy = (Invoice) invoice.Clone();
 
             // Assert
             
@@ -78,7 +78,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = new Invoice(invoice.Number, DateTime.Today, invoice.Customer);
+            Invoice invoiceCopy = (Invoice) invoice.Clone();
 
             // Assert
             var productsReferenceEquals = invoice.Details.Zip(invoiceCopy.Details, (original, copy) => ReferenceEquals(original.Product, copy.Product));
