@@ -6,7 +6,7 @@ namespace FactoryMethodTemplate.UnitTests
     public class ProductsControllerTests
     {
         [TestMethod]
-        public void Render_RazorViewEngine_ShouldReturnsRenderedByRazor()
+        public void Render_RazorViewEngine_ShouldReturnsRenderedByHugo()
         {
             // Arrange
             ProductsController controller = new ProductsController();
@@ -15,7 +15,7 @@ namespace FactoryMethodTemplate.UnitTests
             var result = controller.GetProducts();
 
             // Assert
-            Assert.AreEqual("View rendered by Razor", result);
+            Assert.AreEqual("View rendered by Hugo", result);
 
         }
     }

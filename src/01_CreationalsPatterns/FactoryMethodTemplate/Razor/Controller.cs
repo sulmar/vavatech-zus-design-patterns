@@ -6,10 +6,24 @@ namespace FactoryMethodTemplate.Razor
     {
         public string Render(string viewName, IDictionary<string, object> context)
         {
-            var engine = new RazorViewEngine(); // Problem
+            var engine = CreateViewEngine(); // Problem
             var html = engine.Render(viewName, context);
 
             return html;
+        }
+
+        // Metoda fabrykująca
+        protected virtual IViewEngine CreateViewEngine()
+        {
+            return new RazorViewEngine();
+        }
+    }
+
+    public class HugoController : Controller
+    {
+        protected override IViewEngine CreateViewEngine()
+        {
+            return new HugoViewEngine();
         }
     }
 }
