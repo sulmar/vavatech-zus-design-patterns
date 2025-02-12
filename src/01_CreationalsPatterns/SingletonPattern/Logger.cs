@@ -18,10 +18,7 @@ namespace SingletonPattern
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = new Logger();
-                }
+                _instance ??= new Logger();
 
                 return _instance;
             }
