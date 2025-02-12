@@ -17,6 +17,8 @@ namespace SimpleFactoryPattern
 
         private static void VisitCalculateAmountTest()
         {
+            VisitFactory visitFactory = new VisitFactory();
+
             while (true)
             {
                 Console.Write("Podaj rodzaj wizyty: (N)FZ (P)rywatna (F)irma: ");
@@ -27,9 +29,9 @@ namespace SimpleFactoryPattern
                 {
                     TimeSpan duration = TimeSpan.FromMinutes(minutes);
 
-                    Visit visit = new Visit(duration, 100);
+                    Visit visit = visitFactory.Create(visitType, duration, 100);
 
-                    decimal totalAmount = visit.CalculateCost(visitType);
+                    decimal totalAmount = visit.CalculateCost();
 
                     if (totalAmount == 0)
                         Console.ForegroundColor = ConsoleColor.Green;
