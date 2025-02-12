@@ -1,6 +1,7 @@
 ﻿namespace AdapterPattern
 {
     // Concrete Adapter A
+    // wariant obiektowy
     public class MotorolaRadioAdapter : IRadioAdapter
     {
         private readonly string pincode;
@@ -23,5 +24,24 @@
         }
     }
 
+    // Concrete Adapter A
+    // wariant klasowy
+    public class MotorolaRadioClassAdapter : MotorolaRadio, IRadioAdapter
+    {
+        private readonly string pincode;
+
+        public MotorolaRadioClassAdapter(string pincode)
+        {
+            this.pincode = pincode;
+        }
+
+        public void Send(string message, byte channel)
+        {
+            PowerOn(pincode);
+            SelectChannel(channel);
+            Send(message);
+            PowerOff();
+        }
+    }
 
 }

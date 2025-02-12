@@ -13,7 +13,7 @@ namespace AdapterPattern
         {
             return radioType switch
             {
-                "Motorola" => new MotorolaRadioAdapter("1234"),
+                "Motorola" => new MotorolaRadioClassAdapter("1234"),
                 "Hytera" => new HyteraRadioAdapter(),
                 "Panasonic" => new PanasonicRadioAdapter(),
                 _ => throw new NotSupportedException()
