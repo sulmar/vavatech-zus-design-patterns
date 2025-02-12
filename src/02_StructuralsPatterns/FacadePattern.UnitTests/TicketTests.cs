@@ -24,17 +24,17 @@ namespace FacadePattern.UnitTests
             PaymentService paymentService = new PaymentService();
             EmailService emailService = new EmailService();
 
-            // Act
-            RailwayConnection railwayConnection = railwayConnectionRepository.Find(from, to, when);
-            decimal price = ticketCalculator.Calculate(railwayConnection, numberOfPlaces);
-            Reservation reservation = reservationService.MakeReservation(railwayConnection, numberOfPlaces);
-            Ticket ticket = new Ticket { RailwayConnection = reservation.RailwayConnection, NumberOfPlaces = reservation.NumberOfPlaces, Price = price };
-            Payment payment = paymentService.CreateActivePayment(ticket);
+            ITicketService ticketService = new PkpTicketService(railwayConnectionRepository, ticketCalculator, reservationService, paymentService, emailService);
 
-            if (payment.IsPaid)
+            RailwayConnectionOptions options = new RailwayConnectionOptions
             {
-                emailService.Send(ticket);
-            }
+                from = from,
+                to = to,
+                when = when,
+                numberOfPlaces = numberOfPlaces
+            };
+
+            Ticket ticket = ticketService.Buy(options);
 
             // Assert
             Assert.AreEqual("Bydgoszcz", ticket.RailwayConnection.From);
@@ -58,15 +58,23 @@ namespace FacadePattern.UnitTests
             PaymentService paymentService = new PaymentService();
             EmailService emailService = new EmailService();
 
-            RailwayConnection railwayConnection = railwayConnectionRepository.Find(from, to, when);
-            decimal price = ticketCalculator.Calculate(railwayConnection, numberOfPlaces);
-            Reservation reservation = reservationService.MakeReservation(railwayConnection, numberOfPlaces);
-            Ticket ticket = new Ticket { RailwayConnection = reservation.RailwayConnection, NumberOfPlaces = reservation.NumberOfPlaces, Price = price };
-            Payment payment = paymentService.CreateActivePayment(ticket);
+            ITicketService ticketService = new PkpTicketService(railwayConnectionRepository, ticketCalculator, reservationService, paymentService, emailService);
+
+            RailwayConnectionOptions options = new RailwayConnectionOptions
+            {
+                from = from,
+                to = to,
+                when = when,
+                numberOfPlaces = numberOfPlaces
+            };
+
+            Ticket ticket = ticketService.Buy(options);
+
 
             // Act
-            reservationService.CancelReservation(ticket.RailwayConnection, ticket.NumberOfPlaces);
-            paymentService.RefundPayment(payment);
+            ticketService.Cancel(ticket);
+
+
 
 
 

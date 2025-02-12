@@ -5,6 +5,7 @@
         public RailwayConnection RailwayConnection { get; set; }
         public byte NumberOfPlaces { get; set; }
         public decimal Price { get; set; }
+        public Payment Payment { get; set; }
     }
 
 
