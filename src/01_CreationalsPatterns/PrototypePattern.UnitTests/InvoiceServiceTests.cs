@@ -20,7 +20,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = new Invoice(invoice.Number, invoice.CreateDate, invoice.Customer);
+            Invoice invoiceCopy = invoice.Clone();
 
             // Assert
             invoiceCopy.Should().NotBeSameAs(invoice);
@@ -58,7 +58,7 @@ namespace PrototypePattern.UnitTests
             invoice.Paid(700);
 
             // Act
-            Invoice invoiceCopy = new Invoice(invoice.Number, DateTime.Today, invoice.Customer);
+            Invoice invoiceCopy = invoice.Clone();
 
             // Assert
             

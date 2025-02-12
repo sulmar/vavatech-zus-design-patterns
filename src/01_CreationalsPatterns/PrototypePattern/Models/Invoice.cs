@@ -44,6 +44,20 @@ namespace PrototypePattern
         {
             return $"Invoice No {Number} {TotalAmount:C2} {Customer.FullName}";
         }
+
+        public Invoice Clone()
+        {
+            var invoice = new Invoice(this.Number, this.CreateDate, this.Customer);
+
+            foreach (InvoiceDetail detail in this.Details)
+            {
+                invoice.Details.Add(detail.Clone());
+            }
+
+            invoice.Paid(this.TotalAmount);
+
+            return invoice ;
+        }
     }
 
     public enum PaymentStatus

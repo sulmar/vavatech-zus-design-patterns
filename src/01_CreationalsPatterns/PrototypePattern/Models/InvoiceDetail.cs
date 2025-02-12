@@ -17,7 +17,11 @@
         {
             return $"- {Product} {Quantity} {Amount:C2}";
         }
+
+
+        public InvoiceDetail Clone()
+        {
+            return new InvoiceDetail(this.Product, this.Quantity);        
+        }
     }
-
-
 }
