@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace BridgePattern
+namespace BridgePattern.Transfers
 {
-    #region Transfers
-
     // Refined Abstraction
     public class HealthInsuranceTransfer : Transfer
     {
@@ -19,5 +17,4 @@ namespace BridgePattern
         }
     }
 
-    #endregion
 }

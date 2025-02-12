@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace BridgePattern
+namespace BridgePattern.AuthorizationMethods
 {
-    #region Authorization Methods
-
     public class PinAuthorizationMethod : IAuthorizationMethod
     {
         public void Authorize()
@@ -11,6 +9,4 @@ namespace BridgePattern
             Console.WriteLine("Autoryzacja za pomocą PIN");
         }
     }
-
-    #endregion
 }

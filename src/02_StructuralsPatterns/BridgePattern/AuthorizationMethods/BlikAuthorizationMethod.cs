@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace BridgePattern
+namespace BridgePattern.AuthorizationMethods
 {
-    #region Authorization Methods
-
     public class BlikAuthorizationMethod : IAuthorizationMethod
     {
         public void Authorize()
@@ -11,6 +9,4 @@ namespace BridgePattern
             Console.WriteLine("Autoryzacja za pomocą kodu BLIK");
         }
     }
-
-    #endregion
 }
