@@ -20,11 +20,12 @@ namespace SingletonPattern
         {
             Task.Run(() => LoadBalanceRequestTest(15));
             Task.Run(() => LoadBalanceRequestTest(15));
+            Task.Run(() => LoadBalanceRequestTest(15));
         }
 
         private static void LoadBalanceRequestTest(int numberOfRequests)
         {
-            LoadBalancer loadBalancer = new LoadBalancer();
+            LoadBalancer loadBalancer = LoadBalancer.Instance;
 
             for (int i = 0; i < numberOfRequests; i++)
             {
