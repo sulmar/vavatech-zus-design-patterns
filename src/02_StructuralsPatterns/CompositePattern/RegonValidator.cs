@@ -8,3 +8,19 @@ public class RegonValidator : ICustomerValidator
     }
 }
 
+
+public class CompositeCustomerValidator : ICustomerValidator
+{
+    private readonly List<ICustomerValidator> validators = [];
+
+    public bool Validate(Customer customer)
+    {
+        return validators.All(x => x.Validate(customer));
+    }
+
+    public void Add(ICustomerValidator validator)
+    {
+        validators.Add(validator);
+    }
+}
+
