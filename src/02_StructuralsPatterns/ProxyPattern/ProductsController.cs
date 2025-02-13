@@ -1,34 +1,8 @@
 ﻿namespace ProxyPattern
 {
-    public class ProductsController
+    public class ProductsController(IProductRepository productRepository)
     {
-        private readonly DbProductRepository productRepository;
-        private readonly CacheProductRepository cacheProductRepository;
-
-        public ProductsController(
-            DbProductRepository productRepository, 
-            CacheProductRepository cacheProductRepository)
-        {
-            this.productRepository = productRepository;
-            this.cacheProductRepository = cacheProductRepository;
-        }
-
-        public Product Get(int id)
-        {
-            Product product = cacheProductRepository.Get(id);
-
-            if (product == null)
-            {
-                product = productRepository.Get(id);
-
-                if (product != null)
-                {
-                    cacheProductRepository.Add(product);
-                }
-            }
-
-            return product;
-        }
+        public Product Get(int id) => productRepository.Get(id);
     }
 
    
