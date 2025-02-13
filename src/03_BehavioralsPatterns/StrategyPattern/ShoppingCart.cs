@@ -5,33 +5,25 @@ namespace StrategyPattern;
 public class ShoppingCart
 {
     private double _price;
-    private readonly TimeSpan from;
-    private readonly TimeSpan to;
-    private readonly DateTime specialDate;
-
+   
     public DateTime OrderDate { get; set; }
 
-    public ShoppingCart(double price, TimeSpan from, TimeSpan to, DateTime specialDate)
+    public ShoppingCart(double price)
     {
         _price = price;
-        this.from = from;
-        this.to = to;
-        this.specialDate = specialDate;
     }
+
+    public ICanDiscountStrategy CanDiscountStrategy { get; set; }
+    public IDiscountStrategy DiscountStrategy { get; set; }
+
 
     // Obliczanie ceny na podstawie zniżki
     public double CalculateTotalPrice()
-    {
-        // Happy Hours
-        if (OrderDate.TimeOfDay >= from && OrderDate.TimeOfDay <= to)
+    {        
+        if (CanDiscountStrategy.CanDiscount(this))
         {
-            return _price * 0.90; // 10% zniżki
-        }
-        // Black Friday
-        else if (OrderDate == specialDate)
-        {
-            return _price * 0.80; // 20% zniżki
-        }
+            return _price - DiscountStrategy.Discount(_price);
+        }       
         else
         {
             // No Discount

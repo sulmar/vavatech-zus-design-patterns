@@ -17,10 +17,16 @@ public class ShoppingCartTests
         DateTime specialDate = DateTime.Today; // Irrelevant for Happy Hours
         DateTime orderDate = DateTime.Today.Add(TimeSpan.Parse(orderTime));
 
-        var cart = new ShoppingCart(price, from, to, specialDate)
+        ICanDiscountStrategy canDiscountStrategy = new HappyHoursCanDiscountStrategy(from, to);
+        IDiscountStrategy discountStrategy = new PercentageDiscountStrategy(0.1);
+
+        var cart = new ShoppingCart(price)
         {
-            OrderDate = orderDate
+            OrderDate = orderDate,            
         };
+
+        cart.CanDiscountStrategy = canDiscountStrategy;
+        cart.DiscountStrategy = discountStrategy;
 
         // Act
         double result = cart.CalculateTotalPrice();
@@ -41,10 +47,16 @@ public class ShoppingCartTests
         DateTime blackFriday = DateTime.Parse(specialDate);
         DateTime order = DateTime.Parse(orderDate);
 
-        var cart = new ShoppingCart(price, from, to, blackFriday)
+        ICanDiscountStrategy canDiscountStrategy = new BlackFridayCanDiscountStrategy(blackFriday);
+        IDiscountStrategy discountStrategy = new PercentageDiscountStrategy(0.1);
+
+        var cart = new ShoppingCart(price)
         {
             OrderDate = order
         };
+
+        cart.CanDiscountStrategy = canDiscountStrategy;
+        cart.DiscountStrategy = discountStrategy;
 
         // Act
         double result = cart.CalculateTotalPrice();
@@ -65,10 +77,16 @@ public class ShoppingCartTests
         DateTime blackFriday = DateTime.Parse(specialDate);
         DateTime order = DateTime.Today.Add(TimeSpan.Parse(orderTime));
 
-        var cart = new ShoppingCart(price, from, to, blackFriday)
+        ICanDiscountStrategy canDiscountStrategy = new HappyHoursCanDiscountStrategy(from, to);
+        IDiscountStrategy discountStrategy = new PercentageDiscountStrategy(0.1);
+
+        var cart = new ShoppingCart(price)
         {
             OrderDate = order
         };
+
+        cart.CanDiscountStrategy = canDiscountStrategy;
+        cart.DiscountStrategy = discountStrategy;
 
         // Act
         double result = cart.CalculateTotalPrice();
