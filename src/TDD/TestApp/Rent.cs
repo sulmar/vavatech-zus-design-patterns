@@ -6,18 +6,10 @@
 
         public bool CanReturn(User user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
+            ArgumentNullException.ThrowIfNull(user);
 
-            if (user.IsAdmin)
-                return true;
-
-            if (Rentee == user)
-                return true;
-
-            return false;
+            return user.IsAdmin || Rentee == user;                
         }
-
     }
 
 
