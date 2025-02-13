@@ -11,12 +11,37 @@ namespace FlyweightPattern
         static void Main(string[] args)
         {
             Console.WriteLine("Hello Flyweight Pattern!");
+
+
+            PointsTest();
             
             
 
             // Game game = new Game(TreeFactory.Create());
             //
             // game.Play();
+        }
+
+        private static void PointsTest()
+        {
+            IconFactory iconFactory = new IconFactory();
+
+            var points = new List<Point>()
+            {
+                new Point(10, 20, PointType.Hotel, iconFactory.Get(PointType.Hotel)),
+                new Point(20, 20, PointType.Hotel, iconFactory.Get(PointType.Hotel)),
+                new Point(30, 20, PointType.Hotel, iconFactory.Get(PointType.Hotel)),
+            };
+
+        }
+    }
+
+
+    public class IconFactory
+    {
+        public byte[] Get(PointType type)
+        {
+            throw new NotImplementedException();
         }
     }
 

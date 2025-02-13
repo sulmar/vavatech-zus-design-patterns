@@ -2,6 +2,8 @@ using System;
 
 namespace FlyweightPattern
 {
+
+
     public class Point
     {
         private int x;
