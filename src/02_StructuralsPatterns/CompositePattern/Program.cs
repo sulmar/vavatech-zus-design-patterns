@@ -4,6 +4,15 @@ class Program
 {
     static void Main(string[] args)
     {
+        // Test();
+
+
+        QuestionTest();
+
+    }
+
+    private static void Test()
+    {
         Manager ceo = new Manager("John Smith", "CEO");
         Manager headOfIT = new Manager("Bob Smith", "IT Director");
         headOfIT.Add(new Employee("Kate Smith", "developer"));
@@ -11,37 +20,20 @@ class Program
         headOfIT.Add(new Employee("Piter Smith", "developer"));
 
         ceo.Add(headOfIT);
-
-
-        // QuestionTest();
-
     }
 
     private static void QuestionTest()
     {
-        Console.Write("Are you developer?");
+        IQuestion knowCSharpDecision = new Decision("Welcome on Design Pattern in C# Course!");
+        IQuestion uknownCSharpDesision = new Decision("The Course is not for you.");
+        IQuestion questionCsharp = new Question("Do you know C#?", knowCSharpDecision, uknownCSharpDesision);
+        IQuestion decisionHaveANiceday = new Decision("Have a nice day.");
+        IQuestion questionDeveloper = new Question("Are you developer?", positive: questionCsharp, decisionHaveANiceday);
 
-        if (Response)
-        {
+        questionDeveloper.Ask();
 
-            Console.Write("Do you know C#?");
-
-            if (Response)
-            {
-                Console.WriteLine("Welcome on Design Pattern in C# Course!");
-            }
-            else
-            {
-                Console.WriteLine("The Course is not for you.");
-            }
-
-        }
-        else
-        {
-            Console.WriteLine("Have a nice day.");
-        }
     }
 
-    public static bool Response => Console.ReadKey().Key == ConsoleKey.Y;
+
 
 }
