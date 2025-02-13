@@ -32,17 +32,9 @@ public class PrinterWithCounterDecorator : IPrinter
 }
 
 // Decorator
-public class PrinterWithCostDecorator : IPrinter
+public class PrinterWithCostDecorator(IPrinter printer) : IPrinter
 {
-    // Decorated
-    private readonly IPrinter printer;
-    
     private decimal pricePerChar = 0.11m;
-
-    public PrinterWithCostDecorator(IPrinter printer)
-    {
-        this.printer = printer;
-    }
 
     public void PrintDocument(string document, byte copies)
     {
