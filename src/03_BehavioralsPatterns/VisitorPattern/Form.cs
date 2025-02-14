@@ -1,45 +1,80 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
+using System.Text;
 
 namespace VisitorPattern
 {
-    public class Form
+
+    // Abstract Visitor
+    public interface IVisitor
     {
-        public string Name { get; set; }
-        public string Title { get; set; }
+        void Visit(Label control);
+        void Visit(TextBox control);
+        void Visit(CheckBox control);
+        void Visit(Button control);
+        string GetOutput();
+    }
+
+    // Concrete Visitor A
+    public class HtmlVisitor : IVisitor
+    {
+        private StringBuilder builder = new StringBuilder();
+
+        public string GetOutput()
+        {
+            return builder.ToString();
+        }
+
+        public void Visit(Label control)
+        {
+            builder.AppendLine($"<span>{control.Caption}</span>");
+        }
+
+        public void Visit(TextBox control)
+        {
+            builder.AppendLine($"<span>{control.Caption}</span><input type='text' value='{control.Value}'></input>");
+        }
+
+        public void Visit(CheckBox control)
+        {
+            builder.AppendLine($"<span>{control.Caption}</span><input type='checkbox' value='{control.Value}'></input>");
+        }
+
+        public void Visit(Button control)
+        {
+            builder.AppendLine($"<button><img src='{control.ImageSource}'/>{control.Caption}</button>");
+        }
+    }
+
+    public class Form : Control
+    {
         public ICollection<Control> Body { get; set; }
 
-        public string GetHtml()
+        public override void Accept(IVisitor visitor)
         {
-            string html = "<html>";
-
-            html += $"<title>{Title}</title>";
-
-            html += "<body>";
-
             foreach (var control in Body)
             {
-                switch (control.Type)
-                {
-                    case ControlType.Label:
-                        html += $"<span>{control.Caption}</span>"; break;
-
-                    case ControlType.TextBox:
-                        html += $"<span>{control.Caption}</span><input type='text' value='{control.Value}'></input>"; break;
-
-                    case ControlType.Checkbox:
-                        html += $"<span>{control.Caption}</span><input type='checkbox' value='{control.Value}'></input>"; break;
-
-                    case ControlType.Button:
-                        html += $"<button><img src='{control.ImageSource}'/>{control.Caption}</button>"; break;
-                }
-
+                control.Accept(visitor);
             }
-
-            html += "</body>";
-            html += "</html>";
-
-            return html;
         }
+
+        //public string GetHtml() 
+        //{
+
+            
+        //    string html = "<html>";
+
+        //    html += $"<title>{Caption}</title>";
+
+        //    html += "<body>";
+
+           
+
+        //    html += "</body>";
+        //    html += "</html>";
+
+        //    return html;
+        //}
     }
 
 }
