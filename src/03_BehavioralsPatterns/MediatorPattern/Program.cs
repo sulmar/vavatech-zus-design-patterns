@@ -1,19 +1,47 @@
-﻿var shoppingCart = new ShoppingCart();
-var paymentProcessor = new PaymentProcessor();
-var emailNotifier = new EmailNotifier();
+﻿
+using MediatorPattern;
 
-// Dodaj produkty do koszyka
-shoppingCart.AddItem("Laptop", 1200.99m);
-shoppingCart.AddItem("Mouse", 25.49m);
+ConcreteMediator mediator = new ConcreteMediator();
 
-// Koszyk rozpoczyna proces płatności
-shoppingCart.Checkout(paymentProcessor);
+User user1 = new User(mediator, "Alice");
+User user2 = new User(mediator, "Bob");
+User user3 = new User(mediator, "John");
 
-// Po przetworzeniu płatności wysyłamy potwierdzenie
-emailNotifier.SendConfirmation("user@example.com");
 
-// Czyścimy koszyk
-shoppingCart.ClearCart();
+mediator.Register(user1);
+mediator.Register(user2);
+mediator.Register(user3);
+
+user1.Send(EventType.CoffeeBreak, "Hello World!");
+user2.Send(EventType.Lunch, "Czas na obiad!");
+
+
+
+
+
+
+
+// ShoppingCartTest();
+
+static void ShoppingCartTest()
+{
+    var shoppingCart = new ShoppingCart();
+    var paymentProcessor = new PaymentProcessor();
+    var emailNotifier = new EmailNotifier();
+
+    // Dodaj produkty do koszyka
+    shoppingCart.AddItem("Laptop", 1200.99m);
+    shoppingCart.AddItem("Mouse", 25.49m);
+
+    // Koszyk rozpoczyna proces płatności
+    shoppingCart.Checkout(paymentProcessor);
+
+    // Po przetworzeniu płatności wysyłamy potwierdzenie
+    emailNotifier.SendConfirmation("user@example.com");
+
+    // Czyścimy koszyk
+    shoppingCart.ClearCart();
+}
 
 public class ShoppingCart
 {
@@ -45,7 +73,7 @@ public class ShoppingCart
 
 
 public class PaymentProcessor
-{   
+{
     public void ProcessPayment(decimal amount)
     {
         Console.WriteLine($"PaymentProcessor: Processing payment of ${amount:F2}...");
