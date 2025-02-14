@@ -13,9 +13,10 @@ namespace StatePattern.UnitTests
         public void Init_WhenCalled_ShouldStateIsOff()
         {
             // Arrange
+            LightSwitchStateMachineFactory factory = new LightSwitchStateMachineFactory();
 
             // Act
-            LightSwitch lightSwitch = new LightSwitch();
+            ILightSwitch lightSwitch = new LightSwitchProxy(factory.Create());
 
             // Assert
             Assert.AreEqual(LightSwitchState.Off, lightSwitch.State);
@@ -26,7 +27,8 @@ namespace StatePattern.UnitTests
         public void Push_Once_ShouldStateIsOn()
         {
             // Arrange
-            LightSwitch lightSwitch = new LightSwitch();
+            LightSwitchStateMachineFactory factory = new LightSwitchStateMachineFactory();
+            ILightSwitch lightSwitch = new LightSwitchProxy(factory.Create());
 
             // Act
             lightSwitch.Push();
@@ -40,7 +42,8 @@ namespace StatePattern.UnitTests
         {
 
             // Arrange
-            LightSwitch lightSwitch = new LightSwitch();
+            LightSwitchStateMachineFactory factory = new LightSwitchStateMachineFactory();
+            ILightSwitch lightSwitch = new LightSwitchProxy(factory.Create());
 
 
 
@@ -58,7 +61,8 @@ namespace StatePattern.UnitTests
         public void Graph_WhenCalled_ShouldReturnGraph()
         {
             // Arrange
-            LightSwitch lightSwitch = new LightSwitch();
+            LightSwitchStateMachineFactory factory = new LightSwitchStateMachineFactory();
+            ILightSwitch lightSwitch = new LightSwitchProxy(factory.Create());
             
             // Act
             var result =   lightSwitch.Graph;

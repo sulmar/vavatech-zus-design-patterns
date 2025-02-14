@@ -3,20 +3,21 @@ using Stateless;
 
 namespace StatePattern
 {
+
+    public interface ILightSwitch
+    {
+        LightSwitchState State { get; }
+        void Push();
+        string Graph { get; }
+    }
     
     // dotnet package Stateless
-    
-    public class LightSwitch
+
+    public class LightSwitchStateMachineFactory
     {
-        public LightSwitchState State => machine.State;
-
-        private StateMachine<LightSwitchState, LightSwitchTrigger> machine;
-        
-        public string Graph => Stateless.Graph.MermaidGraph.Format(machine.GetInfo());
-
-        public LightSwitch()
+        public StateMachine<LightSwitchState, LightSwitchTrigger> Create()
         {
-            machine = new StateMachine<LightSwitchState, LightSwitchTrigger>(LightSwitchState.Off);
+            var machine = new StateMachine<LightSwitchState, LightSwitchTrigger>(LightSwitchState.Off);
             
             machine.Configure(LightSwitchState.Off)
                 .OnEntry(() => Console.WriteLine("wyłącz przekaźnik"))
@@ -26,12 +27,40 @@ namespace StatePattern
                 .OnEntry(() =>  Console.WriteLine("załącz przekaźnik"))
                 .Permit(LightSwitchTrigger.Push, LightSwitchState.Off);
             
+            return machine;
         }
+    }
 
-        public void Push()
+    // Wzorzec Proxy
+    // Wariant klasowy (korzysta z dziedziczenia)
+    public class LightSwitchProxy : LightSwitch, ILightSwitch
+    {
+        private StateMachine<LightSwitchState, LightSwitchTrigger> machine;
+        public string Graph => Stateless.Graph.MermaidGraph.Format(machine.GetInfo());
+        
+        public LightSwitchProxy(StateMachine<LightSwitchState, LightSwitchTrigger> machine)
+        {
+            this.machine = machine;
+        }
+        
+        public override LightSwitchState State => machine.State;
+
+        public override void Push()
         {
             machine.Fire(LightSwitchTrigger.Push);
         }
+    }
+    
+    public class LightSwitch : ILightSwitch
+    {
+        public virtual LightSwitchState State { get; set; }
+        
+        public virtual void Push()
+        {
+           // Legacy Code
+        }
+
+        public string Graph { get; }
     }
 
     public enum LightSwitchState
