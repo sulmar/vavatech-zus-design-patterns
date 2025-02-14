@@ -14,10 +14,16 @@ namespace ChainOfResponsibilityPattern.Models
         public string Body { get; set; }
     }
 
+    public class MessageContext
+    {
+        public Message Message { get; set; }
+        public string TaxNumber { get; set; }
+    }
+
     // Abstract Handler
     public interface IMessageHandler
     {
-        void Handle(Message message);
+        void Handle(MessageContext context);
         void SetNext(IMessageHandler next);
     }
 
@@ -29,10 +35,10 @@ namespace ChainOfResponsibilityPattern.Models
             this.next = next;
         }
 
-        public virtual void Handle(Message message)
+        public virtual void Handle(MessageContext context)
         {
            if (next != null) 
-                next.Handle(message);
+                next.Handle(context);
         }
 
       
@@ -48,45 +54,44 @@ namespace ChainOfResponsibilityPattern.Models
             this.whiteList = whiteList;
         }
 
-        public override void Handle(Message message)
+        public override void Handle(MessageContext context)
         {
-            if (!whiteList.Contains(message.From))
+            if (!whiteList.Contains(context.Message.From))
             {
                 throw new Exception();
             }
 
-            base.Handle(message);
+            base.Handle(context);
         }
     }
 
     // Concrete Handler B
     public class ValidateTitleMessageHandler : MessageHandler, IMessageHandler
     {
-        public override void Handle(Message message)
+        public override void Handle(MessageContext context)
         {
-            if (!message.Title.Contains("Order"))
+            if (!context.Message.Title.Contains("Order"))
             {
                 throw new Exception();
             }
 
-            base.Handle(message);
+            base.Handle(context);
         }
     }
 
     public class ValidateTaxNumberMessageHandler : MessageHandler, IMessageHandler
     {
-        public override void Handle(Message message)
+        public override void Handle(MessageContext context)
         {
             string pattern = @"\b(\d{10}|\d{3}-\d{3}-\d{2}-\d{2})\b";
             Regex regex = new Regex(pattern);
-            Match match = regex.Match(message.Body);
+            Match match = regex.Match(context.Message.Body);
 
             if (match.Success)
             {
                 string taxNumber = match.Value;
 
-                // TODO: zwróć wartość
-                // return taxNumber;
+                context.TaxNumber = taxNumber;
             }
             else
             {
@@ -94,7 +99,7 @@ namespace ChainOfResponsibilityPattern.Models
             }
 
 
-            base.Handle(message);
+            base.Handle(context);
         }
 
     }
@@ -135,9 +140,11 @@ namespace ChainOfResponsibilityPattern.Models
 
         public string Process(Message message)
         {
-            firstHandler.Handle(message);
+            MessageContext context = new MessageContext { Message = message };
 
-            throw new NotImplementedException();
+            firstHandler.Handle(context);
+
+            return context.TaxNumber;
         }
     }
 }
