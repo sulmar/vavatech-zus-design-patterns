@@ -11,10 +11,7 @@ namespace MementoPattern
         public string Title { get; set; }
 
         // Backup
-        public ArticleMemento CreateMemento()
-        {
-            return new ArticleMemento(this.Title, this.Content);
-        }
+        public ArticleMemento CreateMemento() => new ArticleMemento(Title, Content);
 
         // Restore
         public void SetMemento(ArticleMemento memento)
@@ -56,16 +53,8 @@ namespace MementoPattern
     public class StackArticleCaretaker : IArticleCaretaker
     {
         private Stack<ArticleMemento> mementos = new Stack<ArticleMemento>();
-
-        public ArticleMemento GetState()
-        {
-            return mementos.Pop();
-        }
-
-        public void SetState(ArticleMemento memento)
-        {
-            mementos.Push(memento);
-        }
+        public ArticleMemento GetState() => mementos.Pop();
+        public void SetState(ArticleMemento memento) => mementos.Push(memento);
     }
    
 }
