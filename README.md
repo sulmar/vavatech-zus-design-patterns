@@ -14,3 +14,12 @@ To take this course you'll need the following.
 ```
 git clone https://github.com/your-design-patterns
 ```
+
+
+## Graph
+```mermaid
+stateDiagram-v2
+	Off --> On : Push
+	On --> Off : Push
+[*] --> Off
+```
