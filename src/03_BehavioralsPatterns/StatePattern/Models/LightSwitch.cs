@@ -1,33 +1,36 @@
 ﻿using System;
+using Stateless;
 
 namespace StatePattern
 {
+    
+    // dotnet package Stateless
+    
     public class LightSwitch
     {
-        public LightSwitchState State { get; set; }
+        public LightSwitchState State => machine.State;
+
+        private StateMachine<LightSwitchState, LightSwitchTrigger> machine;
+        
+        public string Graph => Stateless.Graph.MermaidGraph.Format(machine.GetInfo());
 
         public LightSwitch()
         {
-            State = LightSwitchState.Off;
+            machine = new StateMachine<LightSwitchState, LightSwitchTrigger>(LightSwitchState.Off);
+            
+            machine.Configure(LightSwitchState.Off)
+                .OnEntry(() => Console.WriteLine("wyłącz przekaźnik"))
+                .Permit(LightSwitchTrigger.Push, LightSwitchState.On);
+            
+            machine.Configure(LightSwitchState.On)
+                .OnEntry(() =>  Console.WriteLine("załącz przekaźnik"))
+                .Permit(LightSwitchTrigger.Push, LightSwitchState.Off);
+            
         }
 
         public void Push()
         {
-            if (State == LightSwitchState.Off)
-            {
-                Console.WriteLine("załącz przekaźnik");
-
-                State = LightSwitchState.On;
-                return;
-            }
-
-            if (State == LightSwitchState.On)
-            {
-                Console.WriteLine("wyłącz przekaźnik");
-
-                State = LightSwitchState.Off;
-                return;
-            }
+            machine.Fire(LightSwitchTrigger.Push);
         }
     }
 
@@ -35,6 +38,11 @@ namespace StatePattern
     {
         On,
         Off
+    }
+
+    public enum LightSwitchTrigger
+    {
+        Push
     }
 
 }
