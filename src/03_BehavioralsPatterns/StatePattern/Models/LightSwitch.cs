@@ -33,22 +33,12 @@ namespace StatePattern
 
     // Wzorzec Proxy
     // Wariant klasowy (korzysta z dziedziczenia)
-    public class LightSwitchProxy : LightSwitch, ILightSwitch
+    public class LightSwitchProxy(StateMachine<LightSwitchState, LightSwitchTrigger> machine) : LightSwitch, ILightSwitch
     {
-        private StateMachine<LightSwitchState, LightSwitchTrigger> machine;
         public string Graph => Stateless.Graph.MermaidGraph.Format(machine.GetInfo());
-        
-        public LightSwitchProxy(StateMachine<LightSwitchState, LightSwitchTrigger> machine)
-        {
-            this.machine = machine;
-        }
-        
         public override LightSwitchState State => machine.State;
-
-        public override void Push()
-        {
-            machine.Fire(LightSwitchTrigger.Push);
-        }
+        public override void Push() => machine.Fire(LightSwitchTrigger.Push);
+        
     }
     
     public class LightSwitch : ILightSwitch
